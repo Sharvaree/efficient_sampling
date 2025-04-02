@@ -1,0 +1,35 @@
+user: ${oc.env:USER}
+
+
+exp_name: test
+generators_path: outputs/exp_cond_alpha_pretrained
+uncond_generators_path: outputs/
+classifiers_path: qm9/property_prediction/outputs/exp_class_alpha_pretrained
+property: alpha
+task: qualitative
+run_idx: 1
+analyze: quant
+save_for_vis: false
+evaluate_conditional_stability_loss: true
+model_type: noise
+
+no-cuda: false
+debug_break: false
+log_interval: 5
+batch_size: 1
+iterations: 20
+n_sweeps: 10
+device: cuda
+
+hydra:
+  run:
+    dir: /checkpoint/${user}/molecules/results/${property}_${iterations}_run_idx_${run_idx}_${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: /checkpoint/${user}/molecules/results/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  job:
+    config:
+      override_dirname:
+        exclude_keys:
+          - mode
+          - experiment_name
+          - hydra.launcher.timeout_min

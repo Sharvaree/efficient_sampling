@@ -1,0 +1,21 @@
+user: ${oc.env:USER}
+
+
+model_path: outputs/ecnf_qm9_new
+n_samples: 10000
+batch_size_gen: 100
+save_to_xyz: false
+device: cuda
+
+hydra:
+  run:
+    dir: /checkpoint/${user}/molecules/results/eval_ecnf_qm9_new/${now:%H-%M-%S}
+  sweep:
+    dir: /checkpoint/${user}/molecules/results/${now:%Y-%m-%d}_midpoint_50/${now:%H-%M-%S}
+  job:
+    config:
+      override_dirname:
+        exclude_keys:
+          - mode
+          - experiment_name
+          - hydra.launcher.timeout_min

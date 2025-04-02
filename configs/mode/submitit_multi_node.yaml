@@ -1,0 +1,22 @@
+# @package _global_
+defaults:
+  - override /hydra/launcher: submitit_slurm
+
+ngpu: 1
+run_type: "${experiment_name}"
+
+hydra:
+  callbacks:
+    log_job_return:
+      _target_: hydra.experimental.callbacks.LogJobReturnCallback
+  launcher:
+    timeout_min: 4000
+    gpus_per_node: ${ngpu}
+    tasks_per_node: ${ngpu}
+    nodes: 1
+    cpus_per_task: 4
+    mem_gb: 50
+    constraint: volta32gb
+    partition: learnfair
+    max_num_timeout: 5
+    array_parallelism: 128
